@@ -14,12 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Create default admin user for production deployment
+        User::firstOrCreate(
+            ['email' => 'admin@erp-soft.com'],
+            [
+                'name' => 'System Administrator',
+                'email' => 'admin@erp-soft.com',
+                'password' => bcrypt('Admin@2025!'),
+                'email_verified_at' => now(),
+            ]
+        );
 
         // Seed initial allowance types from config for DB-driven setup
         $this->call(AllowanceTypeSeeder::class);
